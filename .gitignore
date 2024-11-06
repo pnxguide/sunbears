@@ -1,0 +1,10 @@
+# Ignore everything
+/*
+
+# But not these files...
+!.gitignore
+!dataframe.py
+!data.csv
+!main.py
+!parser.py
+!README.md
