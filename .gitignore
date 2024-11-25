@@ -3,9 +3,16 @@
 
 # But not these files...
 !.gitignore
-!dataframe.py
 !data.csv
-!main.py
-!parser.py
 !thumbnail.png
 !README.md
+
+!src/
+src/*
+!src/test.py
+
+!src/sunbears/
+src/sunbears/*
+!src/sunbears/dataframe.py
+!src/sunbears/parser.py
+
