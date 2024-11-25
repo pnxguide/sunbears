@@ -4,11 +4,9 @@
 
 You will be implementing a tiny data processing library that has capabilities similarly to `pandas` and `polars`. The name is , namely `sunbears`.
 
-<center>
-<b>This is a solo assignment; you cannot collaborate in any cases.<br>You can only share your high-level ideas (i.e., not a code) and Python basics.</b>
-<br><br>
-<b>START EARLY!<br>I believe that this is the hardest programming assignment you have encountered so far.</b>
-</center>
+**This is a solo assignment; you cannot collaborate in any cases.** You can only share your high-level ideas (i.e., not a code) and Python basics.
+
+**START EARLY!** I believe that this is the hardest programming assignment you have encountered so far.
 
 ## Prerequisite and Dependencies
 If you do not have the following software installed, please install them before you begin.
