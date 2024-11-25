@@ -6,6 +6,8 @@ You will be implementing a tiny data processing library that has capabilities si
 
 <center>
 <b>This is a solo assignment; you cannot collaborate in any cases.<br>You can only share your high-level ideas (i.e., not a code) and Python basics.</b>
+<br><br>
+<b>START EARLY!<br>I believe that this is the hardest programming assignment you have encountered so far.</b>
 </center>
 
 ## Prerequisite and Dependencies
@@ -68,6 +70,8 @@ column1|column2|...|columnn
 However, it is a bit difficult to import data from external sources into the DataFrame instance if users need to use the constructor manually. Therefore, `sunbears` provides a class, namely Parser, to accomodate this. The Parser is a class providing a capability to convert a CSV (comma-separated values) file into the DataFrame.
 
 ## Guideline for Implementing `sunbears`
+For each step, you should try to run a test along the way. This will ensure that your implementation is correct.
+
 1) You need to understand the specification of `sunbears`'s DataFrame and parser.
 2) Implement the parser.
 3) Implement the `__str__` method in the `DataFrame` class. You may want to use this to debug your further implementation.
@@ -78,5 +82,19 @@ However, it is a bit difficult to import data from external sources into the Dat
 7) Implement the `max` and `min` methods in the `DataFrame` class.
   - To compute `max` and `min`, you need to loop through all the elements.
 
+## Verifying Your Implementation
+You can use `src/test.py` to verify the correctness of your implementation. However, it is not complete and rigorous. You should add more tests to ensure that your implementation is completely correct.
+
+**You need to think about edge cases and try running them.**
+
 ## Grading
 There will be no grade for completing this programming assignment. However, you will not be able to receive any grade for the programming assignment unless you complete this.
+
+On completion, you must have a fully-functional `sunbears` package along with a decent test suite. You also need to be **checked out** in order to redeem a certification of success. An inability to obtain this will lead to no points in the *Skill Set #3 - System Programming*.
+
+## Need Help
+**You must not collaborate with your friends.** If you offer your friend a help, you will also be marked as cheated.
+
+I am not recommending you to use Generative AI (e.g., ChatGPT) if it does not make you understand. **Do not forget that you will be interviewed in the end.**
+
+Since you cannot collaborate, I may conduct a quick Python tutorial session in the weekend. Please feel free to join. There will also be an online recording available shortly.
