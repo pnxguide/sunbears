@@ -77,4 +77,4 @@ class DataFrame:
 
     # TODO:
     def __str__(self):
-        return self
+        return "Unimplemented DataFrame"

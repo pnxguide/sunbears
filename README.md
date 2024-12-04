@@ -2,7 +2,7 @@
 
 ![sunbears, not your pandas alternative](thumbnail.png)
 
-You will be implementing a tiny data processing library that has capabilities similarly to `pandas` and `polars`. The name is , namely `sunbears`.
+You will be implementing a tiny data processing library that has capabilities similarly to `pandas` and `polars`. The name is `sunbears`.
 
 **This is a solo assignment; you cannot collaborate in any cases.** You can only share your high-level ideas (i.e., not a code) and Python basics.
 
