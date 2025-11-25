@@ -1,98 +1,231 @@
-# Assignment #0 - Tiny Data Processing Library
+# Solo Project #1 - Transactional `sunbears`
 
 ![sunbears, not your pandas alternative](thumbnail.png)
 
-You will be implementing a tiny data processing library that has capabilities similarly to `pandas` and `polars`. The name is `sunbears`.
+In this project, you are going to write a Python library for manipulating a table-like data structure, `sunbears`.
 
-**This is a solo assignment; you cannot collaborate in any cases.** You can only share your high-level ideas (i.e., not a code) and Python basics.
+> 🐥 This project can be larger than you have imagined. Please start early!
 
-**START EARLY!** I believe that this is the hardest programming assignment you have encountered so far.
-
-## Prerequisite and Dependencies
-If you do not have the following software installed, please install them before you begin.
-
-- At least Python 3.12
+> 🐥 If you get stuck, feel free to reach out to our teaching assistants.
 
 ## Getting Started
-Clone the repository into your local workspace. Make sure that you have at least Python 3.12 installed on it. To clone, you may use the following CLI command.
 
-```sh
-git clone https://github.com/pnxguide/sunbears
+First, you use this template to create your **private** GitHub repository.
+
+> 🐥 Your repository must be **private**. Otherwise, you are committing **plagiarism** implicitly.
+
+## Core Abstraction: DataFrame
+
+The core abstraction in this library is DataFrame, which is a class that represents a table structure.
+
+<p align="center">
+    <img src="dataframe.png" width="400" />
+</p>
+
+Tables we are interested have two main components:
+
+- **Header** is a list of column names and their types
+- **Data** is a list of rows whose values must comply with their column type
+
+DataFrame is currently implemented as a class in Python. The class has the following initial attributes:
+
+- `column_names: list[str]` represents a list of column names
+- `column_types: list[type]` represents a list of column types (i.e., the type `column_name[i]` is `column_types[i]`)
+- `rows: list[object]` represents a list of rows
+
+> 🐥 Be sure to understand this constructor method before you proceed.
+
+## Class Specification
+
+DataFrame has the following methods:
+
+### Method 1 - `insert`
+
+`insert` is a function that appends a new `row` to the DataFrame object.
+
+You need to ensure that the inserting `row` exists and must have the same number of elements as the number of columns. If the row does not satisfy the condition, raise `ValueError`.
+
+Also, types of values in the `row` must match the column types. If the `row` does not satisfy this condition, raise `TypeError`.
+
+To raise either `ValueError` or `TypeError`, you may use the following code:
+
+```python
+raise ValueError("[error message]")
 ```
 
-If you do not have `git` installed on your workspace, you can use the download ZIP option on the github website.
+### Method 2 - `remove`
 
-**Please do not upload your cloned repository publicly.** This can be interpreted the same as plagiarism, since you are trying to let the others see your work.
+`remove` is a function that removes a row at index `index` from the DataFrame object. However, you do not need to physically remove the row, as it will be troublesome. We instead suggest you to just mark the row as removed. This means that you need to ensure that all methods must treat this row as removed.
 
-## DataFrame
-`sunbears`'s DataFrame is an abstract data type that represents a table. The DataFrame can have multiple columns with multiple data types. You should be able to support at least 3 data types: `int`, `float`, and `str`. The DataFrame can also have multiple rows of data that match the specification of the columns.
+There are multiple methods to mark a row as removed. Feel free to experiment it by yourself and do not forget that you may need to defend your rational in the check-out session.
 
-Users can create the DataFrame instance through its constructor function. The function requires users to provide:
+> 🐥 You must not physically remove the row.
 
-- A list of column names (as a list of `str`)
-- A list of column types (as a list of `type`)
-  - You can extract the type of the variable by using class `type` (https://docs.python.org/3/library/functions.html#type)
-- A list of rows (as a list of `tuple`)
-  - You can learn more about `tuple` here (https://docs.python.org/3/library/stdtypes.html#tuple)
+### Method 3 - `__str__`
 
-Moreover, users can assess the DataFrame through different DataFrame's methods:
+`__str__` is a private function that creates a string representation of the DataFrame object.
 
-- `project` is to create another DataFrame based on the current DataFrame instance. The new DataFrame can have different ordering of columns or some of the columns in the current DataFrame may be dropped in the new DataFrame.
-- `filter` is to create another DataFrame based on the current DataFrame instance by removing some rows that do not meet the given conditions. To specify a condition, users need to use class `Filter`, which will allow users to create an instance of a condition.
-  - Creating a `Filter` instance requires users to specify the condition in the `[l-value] [op] [r-value]` fashion:
-    - `[l-value]` and `[r-value]` are values on each side. Each of them can be either `IDENTIFIER` (or a column name) or `CONSTANT`
-    - `[op]` is the operator. There are 6 operators supported in the DataFrame:
-      - `EQUAL`: `[l-value]` must be equal to `[r-value]`
-      - `NOT_EQUAL`: `[l-value]` must not be equal to `[r-value]`
-      - `LESS_THAN`: `[l-value]` must be less than `[r-value]`
-      - `LESS_THAN_OR_EQUAL`: `[l-value]` must be less than or equal to `[r-value]`
-      - `GREATER_THAN`: `[l-value]` must be greater than `[r-value]`
-      - `GREATER_THAN_OR_EQUAL`: `[l-value]` must be greater than or equal to `[r-value]`
-  - For example, if a user wants to specify `age <= 20`, the user needs to create the following Filter instance:
-    - `Filter("age", ValueType.IDENTIFIER, FilterOp.LESS_THAN_OR_EQUAL, 20, ValueType.CONSTANT)`
-- `count` is to count all the non-empty rows in the current DataFrame instance.
-- `sum` is to sum all the values in a column of the current DataFrame instance. For simplicity, you need to check whether the DataFrame has only a single `int` or `float` column or not. If not, you must throw an error.
-- `average` is to find an average of all the values in a column of the current DataFrame instance. For simplicity, you need to check whether the DataFrame has only a single `int` or `float` column or not. If not, you must throw an error.
-- `max` is to find a maximum value among all the values in a column of the current DataFrame instance. For simplicity, you need to check whether the DataFrame has only a single `int` or `float` column or not. If not, you must throw an error.
-- `min` is to find a minimum value among all the values in a column of the current DataFrame instance. For simplicity, you need to check whether the DataFrame has only a single `int` or `float` column or not. If not, you must throw an error.
-- `__str__` is a function for converting the DataFrame instance into `str`. You need to format the instance as in the following format.
+We provide you with an initial implementation of this function. You may want to try it by using the following code:
 
-```
-column1|column2|...|columnn
-1|Nueng|...|3.5
-2|Poom|...|2.5
-3|Indy|...|1.5
+```python
+print(df)
 ```
 
-## Parser
-However, it is a bit difficult to import data from external sources into the DataFrame instance if users need to use the constructor manually. Therefore, `sunbears` provides a class, namely Parser, to accomodate this. The Parser is a class providing a capability to convert a CSV (comma-separated values) file into the DataFrame.
+where `df` is a DataFrame object.
 
-## Guideline for Implementing `sunbears`
-For each step, you should try to run a test along the way. This will ensure that your implementation is correct.
+You need to make sure that the removed rows are not displayed in the string representation.
 
-1) You need to understand the specification of `sunbears`'s DataFrame and parser.
-2) Implement the parser.
-3) Implement the `__str__` method in the `DataFrame` class. You may want to use this to debug your further implementation.
-4) Implement the `project` method in the `DataFrame` class.
-5) Implement the `filter` method in the `DataFrame` class.
-6) Implement the `count`, `sum`, and `average` methods in the `DataFrame` class.
-  - To find an average, recall that average is actually `sum` divided by `count`. You may want to reuse `count` and `sum`.
-7) Implement the `max` and `min` methods in the `DataFrame` class.
-  - To compute `max` and `min`, you need to loop through all the elements.
+### Method 4 - `persist_to_disk`
 
-## Verifying Your Implementation
-You can use `src/test.py` to verify the correctness of your implementation. However, it is not complete and rigorous. You should add more tests to ensure that your implementation is completely correct.
+`persist_to_disk` is a function that serializes the DataFrame object and write the serialization as a file, namely `file_path`.
 
-**You need to think about edge cases and try running them.**
+To serialize, you need to design a file format, where you can easily cast your DataFrame object into it and *vice versa*. At least, your file format must contain all the information (e.g., `column_names`, `column_types`, `rows`) in the DataFrame so that you can reconstruct a DataFrame object from the file. You may want to explore existing file formats: CSV, TSV, JSON, XML, etc.
 
-## Grading
-There will be no grade for completing this programming assignment. However, you will not be able to receive any grade for the programming assignment unless you complete this.
+You need to describe your file format design in the code including your rationale.
 
-On completion, you must have a fully-functional `sunbears` package along with a decent test suite. You also need to be **checked out** in order to redeem a certification of success. An inability to obtain this will lead to no points in the *Skill Set #3 - System Programming*.
+More importantly, you need to ensure that the directory containing the `file_path` exists. Otherwise, raise `FileNotFoundError`.
 
-## Need Help
-**You must not collaborate with your friends.** If you offer your friend a help, you will also be marked as cheated.
+> 🐥 You do not need to include your removed rows in the file.
 
-I am not recommending you to use Generative AI (e.g., ChatGPT) if it does not make you understand. **Do not forget that you will be interviewed in the end.**
+### Method 5 - `load_from_disk`
 
-Since you cannot collaborate, I may conduct a quick Python tutorial session in the weekend. Please feel free to join. There will also be an online recording available shortly.
+`load_from_disk` is a function that reads a file at `file_path` and uses its content to reconstruct a DataFrame object.
+
+You also need to ensure that the directory containing the `file_path` exists. Otherwise, raise `FileNotFoundError`.
+
+More importantly, this function must be able to load only a file generated by the `persist_to_disk` method.
+
+> 🐥 You may want to put a signature string into the file (e.g., the first line of the file) so that you can easily identify whether the file is generated using the `persist_to_disk` method.
+<!-- 
+### Method 6 - `project`
+
+`project` is a function that creates a new DataFrame object by selecting specific columns from this DataFrame object based on `projected_columns`.
+
+> 🐥 It is possible that columns in `projected_columns` are duplicated. You just need to duplicate columns in the new DataFrame object.
+
+> 🐥 You might want to start from choosing the columns you want to copy, and get the values from the original rows for those columns, and add to your customized new clone Dataframe.
+
+You need to ensure that columns in `projected_columns` must exist in `column_names`. Otherwise, raise `KeyError`.
+
+### Method 7 - `select`
+
+> 🐥 This is the hardest function. You do not need to get it 100% if you do not have time to understand.
+
+`select` is a function that creates a new DataFrame object by retrieving rows from this DataFrame object that satisfy all predicates in `predicates`.
+
+#### Dealing with one predicate
+
+Those predicates must be objects of class `Filter`. `Filter` objects represent the following expression:
+
+```
+[lvalue]:[ltype] [op] [rvalue]:[rtype]
+```
+
+For example, predicate `Filter("salary", ValueType.IDENTIFIER, 100000.0, ValueType.CONSTANT, FilterOp.GREATER_THAN_OR_EQUAL)` ensures the following condition:
+
+```
+salary:IDENTIFIER >= 100000.0:CONSTANT
+```
+
+or mathematically,
+
+$$
+salary >= 100000
+$$
+
+`lvalue` and `rvalue` (`value`) can be either `ValueType.IDENTIFIER` or `ValueType.CONSTANT`. `ValueType.IDENTIFIER` means that `value` must be a column name. If the `value` is not the column name, raise `KeyError`. `ValueType.CONSTANT` means that `value` must be a literal (either `int`, `float`, and `str`).
+
+`op` is a `FilterOp` object representing one of the six possible operators: `=`, `!=`, `<`, `<=`, `>`, and `>=`.
+
+More importantly, there are three possible cases for predicates:
+
+- Both `lvalue` and `rvalue` are `ValueType.IDENTIFIER`. You must ensure that both `lvalue` and `rvalue` represent columns whose types are the same.
+
+- Either `lvalue` or `rvalue` is `ValueType.IDENTIFIER`. This means the other `value` is `ValueType.CONSTANT`. You must ensure that `value` that is `ValueType.CONSTANT` must have the same type as the column from the `value` that is `ValueType.IDENTIFIER`.
+
+- Both `lvalue` and `rvalue` are `ValueType.CONSTANT`. You must ensure that both `lvalue` and `rvalue` are values of the same type.
+
+If the condition does not satisfy, raise `TypeError`.
+
+#### Dealing with multiple predicates
+
+It is possible that there are multiple predicates in `predicates`. You need to ensure that retrieved rows must satisfy all predicates. -->
+
+## Local Testing
+
+> 🐥 You must not test your code using BigGrade. Use our local testing script. 
+
+You can check whether your implementation is correct by running our test suite. We implement the suite using `pytest`. You can easily run it by installing `pytest` module on your machine as follows:
+
+```
+pip install -U pytest
+```
+
+Check that you installed correctly:
+
+```
+pytest --version
+```
+
+Make sure that you are in the outermost directory and use the following command:
+
+```
+pytest
+```
+
+If you run correctly, you should see something like this:
+
+```
+...
+FAILED src/tests/unit/test_select.py::test_both_constant_false - AttributeError: 'NoneType' object has no attribute 'rows'
+FAILED src/tests/unit/test_select.py::test_type_error_both_identifier - Failed: DID NOT RAISE <class 'TypeError'>
+FAILED src/tests/unit/test_select.py::test_type_error_one_identifier - Failed: DID NOT RAISE <class 'TypeError'>
+FAILED src/tests/unit/test_select.py::test_type_error_both_constant_float_int - Failed: DID NOT RAISE <class 'TypeError'>
+FAILED src/tests/unit/test_select.py::test_type_error_both_constant_int_str - Failed: DID NOT RAISE <class 'TypeError'>
+FAILED src/tests/unit/test_select.py::test_multiple_predicates - AttributeError: 'NoneType' object has no attribute 'rows'
+======================================================= 36 failed, 8 passed in 0.18s ========================================================
+```
+
+Note that this depends on how correct your implementation is.
+
+## Submission
+
+Download your repository as a ZIP file. Go to [BigGrade](https://biggrade.pnx.guide) and upload the ZIP file onto the assignment. Your submission will be autograded. Note that BigGrade only grades the correctness (not the code quality and your understanding).
+
+## Grading Rubric
+
+There are three phases on grading your assignment: Correctness, Code Quality, and Code Understanding.
+
+### Correctness (70%)
+
+Your implementation must pass all of our test cases. You may receive partial scores if your implementation can pass some cases.
+
+Our test cases are broken down into three levels, as follows.
+
+#### Unit Test (20%)
+
+Those test cases exercise whether each method is working correctly or not. Methods under test are: `__str__` and `insert`. In order to gain points, you need to pass all the tests for each method.
+
+#### Integration Test (30%)
+
+Those test cases exercise scenarios where multiple methods are working together. Methods under test are: `__str__`, `export`, `import`, `insert`, and `remove`. In order to gain points, you need to pass all the tests for each test suite.
+
+#### End-to-End Test (20%)
+
+Those test cases mimic real-world workloads to test the robustness of your implementation. Methods under test are: `__str__`, `export`, `import`, `insert`, `remove`, `project`, and `select`. In order to gain points, you need to pass all the tests for each test suite.
+
+### Code Quality (30%)
+
+All code must be well-documented and clean. You should consult with [PEP 8](https://peps.python.org/pep-0008/).
+
+> 🐥 You do not need to apply all suggestions in [PEP 8](https://peps.python.org/pep-0008/). We are less strict than this.
+
+### Code Understanding
+
+Once you have submitted the code and received scores that you satisfy, you may reserve a check-out slot with us. During the check-out, you will be asked several questions to check your understanding. There are three possible results for the check-out:
+
+- **Good (1.0x)** means you can answer all the required questions.
+- **Pass (0.5x)** means you can answer some of the required questions.
+- **Fail (0.0x)** means you can answer only a few or none of the required questions.
+
+If you receive **Fail**, you may ask to do another check-out or submit a video recording of you answering the missed questions. Note that you can get at most **Pass (0.5x)** if you are in this circumstance.

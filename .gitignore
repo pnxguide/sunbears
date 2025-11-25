@@ -3,16 +3,22 @@
 
 # But not these files...
 !.gitignore
-!data.csv
 !thumbnail.png
+!dataframe.png
 !README.md
 
 !src/
 src/*
-!src/test.py
 
 !src/sunbears/
 src/sunbears/*
 !src/sunbears/dataframe.py
 !src/sunbears/parser.py
+!src/sunbears/filter.py
+!src/sunbears/utils.py
 
+!src/tests
+__pycache__/
+.pytest_cache/
+
+.DS_Store/
