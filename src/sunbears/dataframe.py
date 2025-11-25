@@ -1,94 +1,119 @@
-from enum import Enum
 from typing import Self
 
-class ValueType(Enum):
-    IDENTIFIER = 1
-    CONSTANT = 2
-
-class FilterOp(Enum):
-    EQUAL = 1
-    NOT_EQUAL = 2
-    LESS_THAN = 3
-    LESS_THAN_OR_EQUAL = 4
-    GREATER_THAN = 5
-    GREATER_THAN_OR_EQUAL = 6
-
-    def __str__(self):
-        op_str = ["", "=", "!=", "<", "<=", ">", ">="]
-        return f"{op_str[self.value]}"
-
-class Filter:
-    def __init__(self, lvalue: object, ltype: ValueType, rvalue: object, rtype: ValueType, op: FilterOp):
-        self.lvalue = lvalue
-        self.ltype = ltype
-        self.rvalue = rvalue
-        self.rtype = rtype
-        self.op = op
-
-    def __str__(self):
-        return f"{self.lvalue} {self.op} {self.rvalue}"
-
 class DataFrame:
-    def __init__(self, column_names: list[str], column_types: list[type], rows: list[object]):
+    """
+    DataFrame is a class that represents a table-like data structure
+    in Python.
+    """
+
+    """
+    TODO(P1): Describe your rational for the file format you will use to
+        store a DataFrame object.
+    """
+
+    def __init__(
+        self,
+        column_names: list[str] = None,
+        column_types: list[type] = None,
+        rows: list[tuple] = None,
+    ):
+        """
+        TODO(P1): 
+        - Modify this constructor as needed
+        - Write a docstring for this constructor
+          (You should remove this TODO(P1): and replace with your docstring)
+        """
+
         self.column_names = column_names
         self.column_types = column_types
         self.rows = rows
 
-    # TODO:
-    def project(self, projected_column: list[str]) -> Self:
-        print("Projecting:", projected_column)
-        return DataFrame([], [], [])
+        if self.column_names == None:
+            self.column_names = []
+        if self.column_types == None:
+            self.column_types = []
+        if self.rows == None:
+            self.rows = []
 
-    # TODO:
-    def filter(self, filters: list[Filter]) -> Self:
-        print("Filtering using:", end="")
-        for f in filters:
-            print(f" ({f})")
-        return DataFrame([], [], [])
+        # TODO(P1): Your code here
 
-    # TODO:
-    def count(self) -> int:
-        print("Counting all the non-empty rows")
-        return 0
 
-    # TODO:
-    def sum(self):
-        # NOTE: Ensure there is only a single column and the column is either int or float
-        print("Sum all the values")
-        return 0
+    def insert(self, row: tuple) -> None:
+        """
+        TODO(P1):
+        - Implement this method as required in the specification
+        - Write a docstring for this method
+          (You should remove this TODO(P1): and replace with your docstring)
+        """
 
-    # TODO:
-    def average(self) -> float:
-        # NOTE: Ensure there is only a single column and the column is either int or float
-        print("Find the average of all the values")
-        return 0
+        # TODO(P1): Your code here
 
-    # TODO:
-    def max(self):
-        print("Find the maximum value among all the values")
-        return 0
+    def remove(self, index: int) -> None:
+        """
+        TODO(P1):
+        - Implement this method as required in the specification
+        - Write a docstring for this method
+          (You should remove this TODO(P1): and replace with your docstring)
+        """
 
-    # TODO:
-    def min(self):
-        print("Find the minimum value among all the values")
-        return 0
+        # TODO(P1): Your code here
+
+    def persist_to_disk(self, file_path: str) -> None:
+        """
+        TODO(P1):
+        - Implement this method as required in the specification
+        - Write a docstring for this method
+          (You should remove this TODO(P1): and replace with your docstring)
+        """
+
+        # TODO(P1): Your code here
+
+    def load_from_disk(self, file_path: str) -> Self:
+        """
+        TODO(P1):
+        - Implement this method as required in the specification
+        - Write a docstring for this method
+          (You should remove this TODO(P1): and replace with your docstring)
+        """
+
+        # TODO(P1): Your code here
 
     def __str__(self):
-        dataframe_string = ""
+        """
+        TODO(P1):
+        - Modify this method to not display removed rows
+        - Write a docstring for this method
+          (You should remove this TODO(P1): and replace with your docstring)
+        """
 
-        # Print column names
-        for i in range(len(self.column_names)):
-            dataframe_string += f"{self.column_names[i]}:{str(self.column_types[i])}"
-            if i < len(self.column_names) - 1:
-                dataframe_string += "|"
-        dataframe_string += "\n"
-
-        # Print data
-        for row in self.rows:
-            for i in range(len(row)):
-                dataframe_string += f"{row[i]}"
-                if i < len(row) - 1:
-                    dataframe_string += "|"
-            dataframe_string += "\n"
+        if len(self.column_names) == 0:
+            return "Empty DataFrame"
         
-        return dataframe_string
+        col_widths = []
+        for i in range(len(self.column_names)):
+            max_w = len(self.column_names[i])
+            for row in self.rows:
+                w = len(str(row[i]))
+                if w > max_w:
+                    max_w = w
+            col_widths.append(max_w)
+
+        lines = []
+        
+        separator = "+-" + "-+-".join(["-" * w for w in col_widths]) + "-+"
+        
+        lines.append(separator)
+        
+        # Header Row
+        header_cells = [h.ljust(col_widths[i]) for i, h in enumerate(self.column_names)]
+        lines.append("| " + " | ".join(header_cells) + " |")
+        lines.append(separator)
+        
+        # Data Rows
+        for row in self.rows:
+            row_cells = [str(r).ljust(col_widths[i]) for i, r in enumerate(row)]
+            lines.append("| " + " | ".join(row_cells) + " |")
+            
+        lines.append(separator)
+
+        return "\n".join(lines)
