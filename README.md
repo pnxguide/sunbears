@@ -1,4 +1,4 @@
-# Solo Project #1 - Transactional `sunbears`
+# Solo Project #1 - Durable `sunbears`
 
 ![sunbears, not your pandas alternative](thumbnail.png)
 
